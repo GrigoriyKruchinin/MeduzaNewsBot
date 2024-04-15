@@ -1,2 +1,2 @@
-# MeduzaNewsBot
+# Meduza News Bot
 Этот проект представляет собой решение тестового задания от компании Digital Strategy в виде бота для Telegram, который позволяет получать заголовки новостей с сайта meduza.io и записывать их в Google Sheets.
