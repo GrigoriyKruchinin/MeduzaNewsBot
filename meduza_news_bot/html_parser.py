@@ -17,8 +17,8 @@ def get_news_headlines(url, tag, class_):
 
     Args:
         url (str): URL, с которого будут получены заголовки новостей.
-        tag (str, optional): Тег HTML, который содержит заголовки новостей. По умолчанию "h2".
-        class_ (str, optional): Класс HTML элементов, содержащих заголовки новостей. По умолчанию "BlockTitle-module-root".
+        tag (str): Тег HTML, который содержит заголовки новостей. 
+        class_ (str): Класс HTML элементов, содержащих заголовки новостей. 
 
     Returns:
         list: Список заголовков новостей.
