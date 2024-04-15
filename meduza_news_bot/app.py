@@ -22,7 +22,10 @@ def send_welcome(message):
         f"Привет! Я бот для сбора заголовков новостей c сайта {URL} "
         "и записи их в Google таблицу.",
     )
-
+    bot.send_message(
+        message.chat.id,
+        "Введите /news чтобы записать заголовки в вашу таблицу.",
+    )
 
 @bot.message_handler(commands=["news"])
 def start_news_process(message):
