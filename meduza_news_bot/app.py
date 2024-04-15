@@ -21,6 +21,12 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
+    """
+    Отправляет приветственное сообщение при запуске бота.
+
+    Args:
+        message: Сообщение от пользователя, содержащее команду /start.
+    """
     bot.reply_to(
         message,
         f"Привет! Я бот для сбора заголовков новостей c сайта {URL} "
@@ -32,7 +38,14 @@ def send_welcome(message):
     )
 
 @bot.message_handler(commands=["news"])
-def start_news_process(message):
+def collect_and_write_headlines_to_sheets(message):
+    """
+    Собирает заголовки новостей при получении команды /news и записывает
+    их в Google Sheets
+
+    Args:
+        message: Сообщение от пользователя, содержащее команду /news.
+    """
     bot.reply_to(message, f"Начинаю сбор заголовков новостей...")
     bot.send_message(
         message.chat.id,
@@ -42,6 +55,12 @@ def start_news_process(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
+    """
+    Обрабатывает все остальные текстовые сообщения и отправляет пользователю инструкции.
+
+    Args:
+        message: Сообщение от пользователя, не содержащее команды /start или /news.
+    """
     bot.reply_to(
         message,
         "Пока я умею обрабатывать только сообщения: /start и /news.",
