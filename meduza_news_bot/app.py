@@ -3,6 +3,10 @@ import telebot
 
 from dotenv import load_dotenv
 
+from meduza_news_bot.db import filter_and_save_new_headlines
+from meduza_news_bot.google_sheets import write_to_google_sheet
+from meduza_news_bot.html_parser import get_news_headlines
+
 
 # Распаковка переменных окружения
 load_dotenv()
@@ -48,6 +52,16 @@ def collect_and_write_headlines_to_sheets(message):
         message: Сообщение от пользователя, содержащее команду /news.
     """
     bot.reply_to(message, f"Начинаю сбор заголовков новостей...")
+    # Получение заголовков новостей
+    news_headlines = get_news_headlines(URL, DEFAULT_TAG, DEFAULT_CLASS)
+
+    # Фильтрация новых заголовков и сохранение в базу данных
+    new_headlines = filter_and_save_new_headlines(news_headlines)
+
+    if new_headlines:
+        # Запись новых заголовков в таблицу
+        write_to_google_sheet(new_headlines, SHEET_NAME, CREDENTIALS_FILE)
+        # Отправка сообщения об успешном добавлении
     bot.send_message(
         message.chat.id,
         "Новые заголовки новостей успешно записаны в Google таблицу.",
