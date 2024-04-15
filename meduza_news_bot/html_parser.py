@@ -12,6 +12,20 @@ HEADERS = {
 
 
 def get_news_headlines(url, tag, class_):
+    """
+    Получает заголовки новостей с указанного URL.
+
+    Args:
+        url (str): URL, с которого будут получены заголовки новостей.
+        tag (str, optional): Тег HTML, который содержит заголовки новостей. По умолчанию "h2".
+        class_ (str, optional): Класс HTML элементов, содержащих заголовки новостей. По умолчанию "BlockTitle-module-root".
+
+    Returns:
+        list: Список заголовков новостей.
+
+    Raises:
+        ParsingError: Ошибка при парсинге данных.
+    """
     try:
         # Отправить GET запрос к указанному URL
         response = requests.get(url, headers=HEADERS)
