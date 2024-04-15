@@ -7,9 +7,13 @@ from dotenv import load_dotenv
 # Распаковка переменных окружения
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+CREDENTIALS_FILE = os.getenv("CREDENTIALS_FILE")
+SHEET_NAME = os.getenv("SHEET_NAME")
 
 # Настройки парсинга данных
 URL = "https://meduza.io/"
+DEFAULT_TAG = "h2"
+DEFAULT_CLASS = "BlockTitle-module-root"
 
 # Создание экземпляра бота
 bot = telebot.TeleBot(BOT_TOKEN)
