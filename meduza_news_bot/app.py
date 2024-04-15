@@ -37,6 +37,7 @@ def send_welcome(message):
         "Введите /news чтобы записать заголовки в вашу таблицу.",
     )
 
+
 @bot.message_handler(commands=["news"])
 def collect_and_write_headlines_to_sheets(message):
     """

@@ -10,6 +10,7 @@ class DatabaseConnection:
         conn (Connection): Объект подключения к базе данных.
         cursor (Cursor): Объект курсора для выполнения SQL-запросов.
     """
+
     def __init__(self, db_name: str):
         self.db_name = db_name
         self.conn = None
