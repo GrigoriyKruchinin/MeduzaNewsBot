@@ -30,5 +30,20 @@ def create_headlines_table():
         )
 
 
+def filter_and_save_new_headlines(news_headlines):
+    new_headlines = []
+    with DatabaseConnection("news.db") as cursor:
+        for headline in news_headlines:
+            cursor.execute(
+                """
+                INSERT OR IGNORE INTO headlines (title) VALUES (?)
+            """,
+                (headline,),
+            )
+            if cursor.rowcount > 0:
+                new_headlines.append(headline)
+    return new_headlines
+
+
 if __name__ == "__main__":
     create_headlines_table()
