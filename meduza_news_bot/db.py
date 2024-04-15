@@ -16,3 +16,19 @@ class DatabaseConnection:
         if self.conn:
             self.conn.commit()
             self.conn.close()
+
+
+def create_headlines_table():
+    with DatabaseConnection("news.db") as cursor:
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS headlines (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT UNIQUE
+            )
+        """
+        )
+
+
+if __name__ == "__main__":
+    create_headlines_table()
