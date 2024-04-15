@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from meduza_news_bot.utils import ParsingError, sanitize_string
+from utils import ParsingError, sanitize_string
 
 
 # Заголовки для имитации запроса от браузера

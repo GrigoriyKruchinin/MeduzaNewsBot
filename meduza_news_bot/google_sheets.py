@@ -6,7 +6,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 # Количество строк записей, после которых будет выполнена задержка
-WRITE_BATCH_SIZE = 28
+WRITE_BATCH_SIZE = 26
 # Время задержки в секундах
 DELAY_SECONDS = 60
 

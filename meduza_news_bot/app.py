@@ -1,10 +1,10 @@
 import os
 import telebot
 
-from meduza_news_bot.html_parser import get_news_headlines
-from meduza_news_bot.utils import STICKER_DOG, handle_error
-from meduza_news_bot.db import filter_and_save_new_headlines
-from meduza_news_bot.google_sheets import write_to_google_sheet
+from html_parser import get_news_headlines
+from utils import STICKER_DOG, handle_error
+from db import filter_and_save_new_headlines
+from google_sheets import write_to_google_sheet
 
 from dotenv import load_dotenv
 
