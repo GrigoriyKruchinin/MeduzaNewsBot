@@ -95,7 +95,6 @@ def write_to_google_sheet(data, sheet_name, credentials_file):
         data: Список данных, которые будут записаны в таблицу.
         sheet_name: Название листа Google Таблицы, куда будут записываться данные.
         credentials_file: Путь к файлу с учетными данными для аутентификации.
-        url: URL, откуда были получены данные (для записи в заголовок таблицы).
     """
     client = authenticate(credentials_file)
     worksheet = open_worksheet(client, sheet_name)

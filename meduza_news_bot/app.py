@@ -1,12 +1,12 @@
 import os
 import telebot
 
-from dotenv import load_dotenv
-
+from meduza_news_bot.html_parser import get_news_headlines
+from meduza_news_bot.utils import STICKER_DOG, handle_error
 from meduza_news_bot.db import filter_and_save_new_headlines
 from meduza_news_bot.google_sheets import write_to_google_sheet
-from meduza_news_bot.html_parser import get_news_headlines
 
+from dotenv import load_dotenv
 
 # Распаковка переменных окружения
 load_dotenv()
@@ -38,6 +38,12 @@ def send_welcome(message):
     )
     bot.send_message(
         message.chat.id,
+        "Обратите внимание, что в Google Sheets есть ограничение на "
+        "количество записей в минуту. Поэтому процесс записи может занять "
+        "некоторое время, особенно если на сайте много новостей 🫣",
+    )
+    bot.send_message(
+        message.chat.id,
         "Введите /news чтобы записать заголовки в вашу таблицу.",
     )
 
@@ -51,21 +57,33 @@ def collect_and_write_headlines_to_sheets(message):
     Args:
         message: Сообщение от пользователя, содержащее команду /news.
     """
+    # Отправка сообщения о начале процесса
     bot.reply_to(message, f"Начинаю сбор заголовков новостей...")
-    # Получение заголовков новостей
-    news_headlines = get_news_headlines(URL, DEFAULT_TAG, DEFAULT_CLASS)
+    bot.send_message(message.chat.id, "Мне может потребоваться несколько минут...")
+    try:
+        # Получение заголовков новостей
+        news_headlines = get_news_headlines(URL, DEFAULT_TAG, DEFAULT_CLASS)
 
-    # Фильтрация новых заголовков и сохранение в базу данных
-    new_headlines = filter_and_save_new_headlines(news_headlines)
+        # Фильтрация новых заголовков и сохранение в базу данных
+        new_headlines = filter_and_save_new_headlines(news_headlines)
 
-    if new_headlines:
-        # Запись новых заголовков в таблицу
-        write_to_google_sheet(new_headlines, SHEET_NAME, CREDENTIALS_FILE)
-        # Отправка сообщения об успешном добавлении
-    bot.send_message(
-        message.chat.id,
-        "Новые заголовки новостей успешно записаны в Google таблицу.",
-    )
+        if new_headlines:
+            # Запись новых заголовков в таблицу
+            write_to_google_sheet(new_headlines, SHEET_NAME, CREDENTIALS_FILE)
+            # Отправка сообщения об успешном добавлении
+            bot.send_message(
+                message.chat.id,
+                "Новые заголовки новостей успешно записаны в Google таблицу.",
+            )
+            bot.send_sticker(message.chat.id, STICKER_DOG)
+        else:
+            bot.send_message(
+                message.chat.id, "Новых заголовков новостей не обнаружено 🙄"
+            )
+
+    except Exception as e:
+        # Обработка ошибок
+        handle_error(bot, message, e)
 
 
 @bot.message_handler(func=lambda message: True)
